@@ -5,6 +5,7 @@ import { AntDesign } from '@expo/vector-icons'
 import colors from './Colors';
 import tempData from './tempData';
 import TodoList from './components/TodoList';
+import AddTodoModal from './components/AddListModal';
 
 //fontLoader();
 export default class app extends React.Component {
@@ -20,15 +21,13 @@ export default class app extends React.Component {
       <View style={styles.container}>
 
         <Modal animationType="slide" visible={this.state.addTodoVisible} onRequestClose={() => this.toggleAddTodoModal()}>
-          <View>
-            <Text>I am a modal! :)</Text>
-          </View>
+          <AddTodoModal closeModal={() => this.toggleAddTodoModal()}/>
         </Modal>
 
         <View style={{ flexDirection: 'row' }}>
           <View style={styles.divider} />
           <Text style={styles.title}>
-             <Text style={{ color: colors.blue }}>To</Text>dos
+             <Text style={{ color: colors.blue }}>Pro</Text>jects
           </Text>
           <View style={styles.divider} />
         </View>
