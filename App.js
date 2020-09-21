@@ -11,11 +11,18 @@ import AddTodoModal from './components/AddListModal';
 export default class app extends React.Component {
   state = {
     addTodoVisible: false
-  }
+  };
 
   toggleAddTodoModal() {
     this.setState({ addTodoVisible: !this.state.addTodoVisible })
+  };
+
+  renderList = list => {
+    return (
+      <TodoList list={list} />
+    )
   }
+
   render() {
     return (
       <View style={styles.container}>
@@ -43,7 +50,8 @@ export default class app extends React.Component {
             keyExtractor={item => item.name}
             horizontal={true}
             showsHorizontalScrollIndicator={false}
-            renderItem={({ item }) => <TodoList list={item} />} />
+            renderItem={({ item }) => this.renderList(item)} 
+          />
         </View>
 
       </View>

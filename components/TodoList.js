@@ -1,26 +1,42 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Modal } from 'react-native';
 import color from '../Colors';
+import ActionModal from '../components/ActionModal';
 
-export default TodoList = ({list}) => {
-    const completedCount = list.todos.filter(todo => todo.completed).length
-    const remainingCount = list.todos.filter(todo => !todo.completed).length
-    return (
-        <View style={[styles.listContainer, {backgroundColor: list.color}]}>
-            <Text style={styles.listTitle} numberOfLines={1}>
-                {list.name}
-            </Text>
+export default class TodoList extends React.Component {
+    state = {
+        showListVisible: false
+    }
 
-            <View style={{ alignItems: 'center'}}>
-                <Text style={styles.count}>{remainingCount}</Text>
-                <Text style={styles.subtitle}>Remaining</Text>
+    toggleListModal() {
+        this.setState({ showListVisible: !this.state.showListVisible })
+    }
+    render() {
+        const list = this.props.list;
+        const completedCount = list.todos.filter(todo => todo.completed).length;
+        const remainingCount = list.todos.length - completedCount;
+        return (
+            <View>
+                <Modal animationType="slide" visible={this.state.showListVisible} onRequestClose={() => this.toggleListModal()}>
+                    <ActionModal list={list} closeModal={() => this.toggleListModal()} />
+                </Modal>
+                <TouchableOpacity style={[styles.listContainer, { backgroundColor: list.color }]} onPress={() => this.toggleListModal()}>
+                    <Text style={styles.listTitle} numberOfLines={1}>
+                        {list.name}
+                    </Text>
+
+                    <View style={{ alignItems: 'center' }}>
+                        <Text style={styles.count}>{remainingCount}</Text>
+                        <Text style={styles.subtitle}>Remaining</Text>
+                    </View>
+                    <View style={{ alignItems: 'center' }}>
+                        <Text style={styles.count}>{completedCount}</Text>
+                        <Text style={styles.subtitle}>Completed</Text>
+                    </View>
+                </TouchableOpacity>
             </View>
-            <View style={{ alignItems: 'center'}}>
-                <Text style={styles.count}>{completedCount}</Text>
-                <Text style={styles.subtitle}>Completed</Text>
-            </View>
-        </View>
-      );
+        );
+    }
 }
 
 const styles = StyleSheet.create({
